@@ -28,6 +28,8 @@ import com.rabbitmq.client.Channel;
 import com.rabbitmq.client.QueueingConsumer;
 import com.rabbitmq.client.AMQP.BasicProperties;
 import rmi.ComplextRMIObject;
+import sun.tools.jconsole.MaximizableInternalFrame;
+import utils.Utils;
 
 public class RabbitRPCServer {
 
@@ -67,9 +69,9 @@ public class RabbitRPCServer {
 
                 try {
                     String message = new String(delivery.getBody(), "UTF-8");
-                    System.out.println(message);
+//                    System.out.println(message);
                     Gson gson = new Gson();
-                    ComplextRMIObject complextRMIObject = new ComplextRMIObject(1L, "name", 32423432L);
+                    ComplextRMIObject complextRMIObject = Utils.createComplextObj();
                     response = gson.toJson(complextRMIObject);
                 } catch (Exception e) {
                     e.printStackTrace();
@@ -77,7 +79,7 @@ public class RabbitRPCServer {
                 } finally {
                     channel.basicPublish("", props.getReplyTo(), replyProps, response.getBytes("UTF-8"));
                     channel.basicAck(delivery.getEnvelope().getDeliveryTag(), false);
-                    System.out.println("Message sent back");
+//                    System.out.println("Message sent back");
                 }
             }
         } catch (Exception e) {

@@ -9,6 +9,9 @@ package rmi;
  *
  *************************************************************** */
 
+import main.Main;
+import utils.Utils;
+
 import java.rmi.RemoteException;
 import java.rmi.server.UnicastRemoteObject;
 
@@ -29,6 +32,6 @@ public class RMIImplementation extends UnicastRemoteObject implements RMIInterfa
 
     @Override
     public ComplextRMIObject createWithId(Long id) throws RemoteException {
-        return new ComplextRMIObject(id, "Some Name", 123456789);
+        return Utils.createComplextObj();
     }
 }
