@@ -15,8 +15,9 @@ import rmi.ComplextRMIObject;
 import rmi.RMIImplementation;
 import utils.Utils;
 
-import java.io.BufferedWriter;
-import java.io.IOException;
+import java.io.*;
+import java.net.ServerSocket;
+import java.net.Socket;
 import java.nio.file.Files;
 import java.nio.file.Paths;
 import java.rmi.registry.LocateRegistry;
@@ -121,6 +122,31 @@ public class Main {
         new Thread(rabbitThread).start();
         // Rabbit MQ End
 
+        //Basic Socket Start
+        Runnable socketThread = new Runnable() {
+            @Override
+            public void run() {
+                try {
+                    ServerSocket serverSocket = new ServerSocket(1025);
+                    while (true) {
+                        System.out.println("Socket Running...");
+                        Socket socket = serverSocket.accept();
+                        BufferedReader bufferedReader = new BufferedReader(new InputStreamReader(
+                                socket.getInputStream()));
+                        PrintStream printStream = new PrintStream(socket.getOutputStream());
+                        printStream.print(gson.toJson(Utils.createComplextObj()));
+                        printStream.print('\n');
+                        bufferedReader.close();
+                    }
+
+                } catch (IOException e) {
+                    e.printStackTrace();
+                }
+            }
+        };
+        socketThread.run();
+        //Basic Socket End
 
     }
 }
+
