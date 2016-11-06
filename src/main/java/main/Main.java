@@ -4,14 +4,13 @@ import HelloApp.Hello;
 import HelloApp.HelloHelper;
 import HelloApp.HelloServant;
 import com.google.gson.Gson;
-import com.rabbitmq.client.*;
+import org.omg.CORBA.ORB;
 import org.omg.CosNaming.NameComponent;
 import org.omg.CosNaming.NamingContextExt;
 import org.omg.CosNaming.NamingContextExtHelper;
 import org.omg.PortableServer.POA;
 import org.omg.PortableServer.POAHelper;
 import rabbitmq.RabbitRPCServer;
-import rmi.ComplextRMIObject;
 import rmi.RMIImplementation;
 import utils.Utils;
 
@@ -22,18 +21,15 @@ import java.nio.file.Files;
 import java.nio.file.Paths;
 import java.rmi.registry.LocateRegistry;
 import java.rmi.registry.Registry;
-import java.util.concurrent.TimeoutException;
 
-import static spark.Spark.*;
-
-import org.omg.CORBA.ORB;
+import static spark.Spark.get;
+import static spark.Spark.port;
 
 public class Main {
 
 
     public static void main(String[] args) {
         Gson gson = new Gson();
-
 
         //REST Start
         port(8091);
@@ -93,7 +89,6 @@ public class Main {
 
 
         // RMI Start
-
         //Source : https://www.youtube.com/watch?v=GURClZeR96E
         // Remember if you are ever sending an object you need to implement serialisable
         try {
@@ -128,8 +123,8 @@ public class Main {
             public void run() {
                 try {
                     ServerSocket serverSocket = new ServerSocket(1025);
+                    System.out.println("Socket Running...");
                     while (true) {
-                        System.out.println("Socket Running...");
                         Socket socket = serverSocket.accept();
                         BufferedReader bufferedReader = new BufferedReader(new InputStreamReader(
                                 socket.getInputStream()));

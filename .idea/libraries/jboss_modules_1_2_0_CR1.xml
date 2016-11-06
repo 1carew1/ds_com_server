@@ -1,0 +1,9 @@
+<component name="libraryTable">
+  <library name="jboss-modules-1.2.0.CR1">
+    <CLASSES>
+      <root url="jar://$PROJECT_DIR$/lib/jboss-modules-1.2.0.CR1.jar!/" />
+    </CLASSES>
+    <JAVADOC />
+    <SOURCES />
+  </library>
+</component>
